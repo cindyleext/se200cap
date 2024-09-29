@@ -1,11 +1,15 @@
 "use client";
 
+import { db } from "@/db";
+
 import * as z from "zod";
+
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { RegisterSchema } from "@/schemas";
+import { PolicySchema } from "@/schemas";
+
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -26,27 +30,65 @@ import {
   } from "@/components/ui/card"
 import { useRouter } from "next/navigation";
 
+// import * as React from "react"
+// import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+// import {
+//     DropdownMenu,
+//     DropdownMenuContent,
+//     DropdownMenuItem,
+//     DropdownMenuLabel,
+//     DropdownMenuSeparator,
+//     DropdownMenuTrigger,
+//   } from "@/components/ui/dropdown-menu"
+
+// type Checked = DropdownMenuCheckboxItemProps["checked"]
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+
+import { add_policy } from "@/actions/add_policy";
+
 export default function Page() {
-	// This step can be deferred for later use
+    const form = useForm<z.infer<typeof PolicySchema>>({
+    resolver: zodResolver(PolicySchema),
+        defaultValues: {
+            id: "",
+            name: "",
+            price: 0,
+            type: ""
+        },
+    });
+    
+
+  const policyTypes = [
+    { id: 1, policyTypeName: 'Health Insurance' },
+    { id: 2, policyTypeName: 'Travel Insurance' },
+    { id: 3, policyTypeName: 'Life Insurance' },
+    { id: 4, policyTypeName: 'Critical Illness' },
+    { id: 5, policyTypeName: 'Car Insurance' },
+    { id: 6, policyTypeName: 'Home Insurance' },
+    { id: 7, policyTypeName: 'Personal Accident' },
+    { id: 8, policyTypeName: 'Business Insurance' },
+    ];
+
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      name: "",
-    },
-  });
+  const onSubmit = async (values) => {
+    console.log(values)
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    const status = null
+    const status = await add_policy(values);
+
+    
 
     if (status?.error) {
       console.log(status.error);
     } else {
 	    // This step can be deferred for later use
-      router.push("/login");
+      router.push("/policies");
     }
   };
 
@@ -110,7 +152,14 @@ export default function Page() {
                     <FormItem>
                         <FormLabel>Type</FormLabel>
                         <FormControl>
-                        <Input {...field} placeholder="Health Insurance" />
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Policy Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {policyTypes.map((policyType) => (<SelectItem key={policyType.id} value={policyType.policyTypeName}>{policyType.policyTypeName}</SelectItem>))}
+                        </SelectContent>
+                        </Select>
                         </FormControl>
                         <FormMessage />
                     </FormItem>

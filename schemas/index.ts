@@ -20,3 +20,20 @@ export const LoginSchema = z.object({
     message: "Password is required",
   }),
 });
+
+
+export const PolicySchema = z.object({
+  id: z.string().min(6, {
+    message: "Id is required",
+  }),
+  name: z.string().min(6, {
+    message: "Name is required",
+  }),
+  price: z.coerce.number().gte(0,{
+    message: "Price should be 0 or above."
+  }),
+  type: z.string().min(1, {
+    message: "Select a type"
+  })
+  
+});

@@ -88,21 +88,13 @@ model Policy {
   PolicyPolicyType       PolicyPolicyType[]
 }
 
-model PolicyType {
-  id              Int            @id @default(autoincrement())
+model PolicyPolicyType {
+  policyId        Int
   policyTypeName  String
 
-  PolicyTypes     PolicyPolicyType[]
-}
-
-model PolicyPolicyType {
-  policyId      Int
-  policyTypeId  Int
-
   Policy Policy @relation(fields: [policyId], references: [id]) // Relation to Policy
-  PolicyType PolicyType @relation(fields: [policyTypeId], references: [id]) // Relation to PolicyType
 
-  @@id([policyId, policyTypeId]) // Composite primary key
+  @@id([policyId, policyTypeName]) // Composite primary key
 }
 
 model Holder {

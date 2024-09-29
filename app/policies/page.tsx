@@ -33,18 +33,12 @@ export default async function Page() {
     const policyItems = await db.policy.findMany({
         take: 5,
         include: {
-            PolicyPolicyType: {
-                include: {
-                    PolicyType: true
-                }
-            }
+            PolicyPolicyType: true
         }
     });
   
     // console.log(policyItems);
-    console.log(policyItems[0].PolicyPolicyType.map((policyType) => {
-        return policyType.PolicyType.policyTypeName
-    }));
+    // console.log(policyItems[0].PolicyPolicyType[0].policyTypeName);
 
     const renderedPolicyItems = policyItems.map((policyItem) => {
       return (
@@ -52,9 +46,10 @@ export default async function Page() {
             <TableCell className="font-medium">{policyItem.insurancePolicyId}</TableCell>
             <TableCell>{policyItem.policyName}</TableCell>
             <TableCell>{policyItem.basePrice.toString()}</TableCell>
-            <TableCell>{policyItem.PolicyPolicyType.map((policyType) => {
+            <TableCell><Badge className="border-gray-300 bg-white text-black">{policyItem.PolicyPolicyType[0].policyTypeName}</Badge>
+                {/* {policyItem.PolicyPolicyType.map((policyType) => {
                 return <Badge asChild className="border-gray-300 bg-white text-black">{policyType.PolicyType.policyTypeName}</Badge>
-            })}
+            })} */}
             </TableCell>
         </TableRow>);
     })
