@@ -14,6 +14,13 @@ import {
   Users2
 } from 'lucide-react';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
+
 export default function RootLayout({
   children,
 }: {
@@ -24,32 +31,48 @@ export default function RootLayout({
       <body>
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-6 px-2 sm:py-5 mt-12">
-              <HoverCard>
-                <HoverCardTrigger asChild className="">
-                  <Link href="/"><Home className="h-5 w-5" /></Link>
-                </HoverCardTrigger>
-                <HoverCardContent side="right" sideOffset="1" className="z-auto w-auto py-1 px-2">
-                  <h4 className="text-sm font-semibold text-center">Home</h4>
-                </HoverCardContent>
-              </HoverCard>
+            
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href="/"
+                      className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-black"
+                    >
+                      <Home className="h-5 w-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Home</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <Link href="/policies"><Wallet className="h-5 w-5" /></Link>
-                </HoverCardTrigger>
-                <HoverCardContent side="right" sideOffset="1" className="z-auto w-auto py-1 px-2">
-                  <h4 className="text-sm font-semibold text-center">Policies</h4>
-                </HoverCardContent>
-              </HoverCard>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href="/policies"
+                      className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-black"
+                    >
+                      <Wallet className="h-5 w-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Policies</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <Link href="/customers"><Users2 className="h-5 w-5" /></Link>
-                </HoverCardTrigger>
-                <HoverCardContent side="right" sideOffset="1" className="z-auto w-auto py-1 px-2">
-                  <h4 className="text-sm font-semibold text-center">Customers</h4>
-                </HoverCardContent>
-              </HoverCard>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href="/customers"
+                      className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-black"
+                    >
+                      <Users2 className="h-5 w-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Customers</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </nav>
           </aside>
         {children}

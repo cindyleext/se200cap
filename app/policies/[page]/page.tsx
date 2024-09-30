@@ -39,9 +39,7 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
-import { useSearchParams } from 'next/navigation';
-
-export default async function Page(
+export default async function Page({params}
     // searchParams:  {
     //     searchParams?: {
     //       page?: string,
@@ -55,7 +53,8 @@ export default async function Page(
     // }
   
     // const currentPage = Number(searchParams?.page) || 1;
-    const currentPage = 1;
+
+    const currentPage = Number(params.page);
 
     console.log(currentPage);
     const totalPages = await db.policy.count()
