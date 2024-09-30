@@ -40,20 +40,7 @@ import {
 } from "@/components/ui/pagination"
 
 export default async function Page({params}
-    // searchParams:  {
-    //     searchParams?: {
-    //       page?: string,
-    //     },
-    //   },
 ) {
-    // const searchParams = useSearchParams();
-
-    // function handleSearch(term: string) {
-    //     const params = new URLSearchParams(searchParams);
-    // }
-  
-    // const currentPage = Number(searchParams?.page) || 1;
-
     const currentPage = Number(params.page);
 
     console.log(currentPage);
@@ -95,7 +82,6 @@ export default async function Page({params}
         </CardHeader>
         <CardContent>
           <Table>
-                  {/* <TableCaption>Insurance Policies: Critical details of insurance policies</TableCaption> */}
                   <TableHeader>
                   <TableRow>
                       <TableHead className="w-[100px]">ID</TableHead>
@@ -115,13 +101,22 @@ export default async function Page({params}
             <Pagination>
                     <PaginationContent>
                         <PaginationItem>
-                        <PaginationPrevious href={"/policies/"+(currentPage-1).toString()} />
+                        <PaginationPrevious 
+                            href={"/policies/"+(currentPage-1).toString()}
+                            aria-disabled={currentPage <= 1}
+                            tabIndex={currentPage <= 1 ? -1 : undefined}
+                            className={
+                              currentPage <= 1 ? "pointer-events-none opacity-50" : undefined
+                            }
+                        />
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationLink href={"/policies/"+(currentPage).toString()}>{(currentPage).toString()}</PaginationLink>
+                        <PaginationLink 
+                            // href={"/policies/"+(currentPage).toString()}
+                            aria-disabled={currentPage <= 1}
+                        >{(currentPage).toString()}</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationEllipsis />
                         </PaginationItem>
                         <PaginationItem>
                         <PaginationNext href={"/policies/"+(currentPage+1).toString()} />
